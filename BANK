@@ -1,0 +1,32 @@
+pragma solidity ^0.8.0;
+
+contract BankAccount{
+    address public owner;
+    uint256 public balance;
+
+    constructor(){
+        owner=msg.sender;
+        balance=0;
+    }
+
+    modifier onlyOwner(){
+        require(msg.sender==owner,"This operation must be performed by owner only");
+        _;
+    }
+
+    function Deposit(uint256 amount) public onlyOwner{
+        require(amount>0,"deposit amount greater than 0");
+        balance+=amount;
+    }
+
+    function Withdraw(uint256 amount) public onlyOwner{
+        require(amount>0,"Withdraw amount greater than 0");
+        require(balance>=amount,"Insufficient Balance");
+        balance-=amount;
+    }
+
+    function Showbalance() public view returns(uint256){
+        return balance;
+    }
+
+}
